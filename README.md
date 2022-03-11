@@ -21,6 +21,8 @@ docker stop mysql8
 Si se copio tal cual el comando de docker run la contraseña del usuario root va a ser "secret". Seria ideal crear un usuario para el proyecto, el que estamos utilizando para las pruebas es el usuario "java". Se puede crear el usuario y darle todos los privilegios con los siguientes comandos.
 
 ```
+CREATE SCHEMA pruebas;
+
 CREATE USER 'java'@'%' IDENTIFIED BY 'javacito';
 
 GRANT ALL PRIVILEGES ON * . * TO 'java'@'%';

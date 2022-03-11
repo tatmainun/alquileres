@@ -16,3 +16,10 @@ docker run -d -p 33061:3306 --name mysql8 -e MYSQL_ROOT_PASSWORD=secret mysql:8 
 docker start mysql8
 docker stop mysql8
 ```
+
+## Base de datos
+Si se copio tal cual el comando de docker run la contraseña del usuario root va a ser "secret". Seria ideal crear un usuario para el proyecto, el que estamos utilizando para las pruebas es el usuario "java". Se puede crear el usuario y darle todos los privilegios con los siguientes comandos.
+
+```
+sudo snap install datagrip --classic
+```

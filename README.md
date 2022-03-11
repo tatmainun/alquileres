@@ -2,10 +2,10 @@
 Proyecto de practica que consiste en un servicio de alquileres
 
 ## Tecnologias
--Spring 2.6.4.
--Java 8.
--Cucumber.
--JUnit 5.
+- Spring 2.6.4.
+- Java 8.
+- Cucumber.
+- JUnit 5.
 
 ## Docker
 ```

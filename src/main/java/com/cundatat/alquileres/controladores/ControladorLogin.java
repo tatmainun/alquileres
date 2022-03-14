@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ControladorLogin {
+
+    private ServicioLogin servicioLogin;
+
     @Autowired
-    ServicioLogin servicioLogin;
+    public ControladorLogin(ServicioLogin servicioLogin) {
+        this.servicioLogin = servicioLogin;
+    }
+
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody Credenciales credenciales) throws CredencialesInvalidasExcepcion {
         servicioLogin.loguear(credenciales);

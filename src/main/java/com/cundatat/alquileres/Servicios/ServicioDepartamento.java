@@ -21,4 +21,8 @@ public class ServicioDepartamento {
         ArrayList<Departamento> departamentos = (ArrayList<Departamento>) repositorioDepartamento.findAll();
         return departamentos;
     }
+
+    public Departamento obtenerDepartamento(long id) {
+        return null;
+    }
 }

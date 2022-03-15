@@ -21,7 +21,9 @@ import static org.mockito.Mockito.when;
 public class ControladorDepartamentoTest {
 
     private ArrayList<Departamento> departamentos = new ArrayList<Departamento>();
-    private ResponseEntity<ArrayList<Departamento>> resultado;
+    private ResponseEntity<ArrayList<Departamento>> resultados;
+    private ResponseEntity<Departamento> resultado;
+    private Departamento departamento;
 
     @Mock
     ServicioDepartamento servicioDepartamento;
@@ -36,13 +38,41 @@ public class ControladorDepartamentoTest {
         entoncesObtengoDosDepartamentos();
     }
 
-    private void entoncesObtengoDosDepartamentos() {
-        assertEquals(2, this.resultado.getBody().size());
+    @Test 
+    void obtengoeLDepartamento2() {
+        dadoQueExisteElDepartamento2();
+        cuandoSolicitoSolicitoElDepartamentoDos();
+        entoncesObtengoLosDatosDelDepartamentoDos();
+    }
+
+    private void entoncesObtengoLosDatosDelDepartamentoDos() {
         assertEquals(HttpStatus.OK, this.resultado.getStatusCode());
+        assertEquals(2L, this.resultado.getBody().getId());
+        assertEquals(2, this.resultado.getBody().getAmbientes());
+        assertEquals(4, this.resultado.getBody().getCantidadDePersonas());
+    }
+
+    private void cuandoSolicitoSolicitoElDepartamentoDos() {
+        this.resultado = controladorDepartamento.obtenerDepto(2L);
+    }
+
+    private void dadoQueExisteElDepartamento2() {
+        this.departamento = new Departamento();
+
+        this.departamento.setId(2L);
+        this.departamento.setAmbientes(2);
+        this.departamento.setCantidadDePersonas(4);
+
+        when(servicioDepartamento.obtenerDepartamento(2L)).thenReturn(this.departamento);
+    }
+
+    private void entoncesObtengoDosDepartamentos() {
+        assertEquals(2, this.resultados.getBody().size());
+        assertEquals(HttpStatus.OK, this.resultados.getStatusCode());
     }
 
     private void cuandoSolicitdoLaListaDeTodosLosDepartamentos() {
-        this.resultado = controladorDepartamento.obtenerTodos();
+        this.resultados = controladorDepartamento.obtenerTodos();
     }
 
     private void dadoQueExistenDosDepartamentos() {

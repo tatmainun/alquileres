@@ -16,6 +16,10 @@ public class Departamento implements Serializable {
     private Integer ambientes;
     private Integer cantidadDePersonas;
 
+    public Long getId() {
+        return id;
+    }
+
     public Integer getAmbientes() {
         return ambientes;
     }

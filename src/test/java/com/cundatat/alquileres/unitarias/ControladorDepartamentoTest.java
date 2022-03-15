@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class ControladorDepartamentoTest {
 
     private void entoncesObtengoDosDepartamentos() {
         assertEquals(2, this.resultado.getBody().size());
-        assertEquals(200, this.resultado.getStatusCode());
+        assertEquals(HttpStatus.OK, this.resultado.getStatusCode());
     }
 
     private void cuandoSolicitdoLaListaDeTodosLosDepartamentos() {

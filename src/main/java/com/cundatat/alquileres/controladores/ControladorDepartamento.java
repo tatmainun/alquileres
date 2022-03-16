@@ -28,7 +28,9 @@ public class ControladorDepartamento {
     }
 
     @GetMapping("/departamento/{id}")
-    public ResponseEntity<Departamento> obtenerDepto(long l) {
-        return null;
+    public ResponseEntity<Departamento> obtenerDepto(long departamentoId) {
+        Departamento departamento = servicioDepartamento.obtenerDepartamento(departamentoId);
+
+        return ResponseEntity.ok(departamento);
     }
 }

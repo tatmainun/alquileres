@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -46,24 +47,24 @@ public class ControladorLoginTest {
         assertThrows(CredencialesInvalidasExcepcion.class, this::cuandoElUsuarioSeLoguea);
     }
 
-    private void seVerificaQueSeDevuelveEstado200() {
-        assertEquals(HttpStatus.OK ,this.respuesta.getStatusCode());
-    }
-
-    private void cuandoElUsuarioSeLoguea() throws CredencialesInvalidasExcepcion{
-        respuesta = controladorLogin.login(this.credenciales);
-        System.out.println(respuesta);
-    }
-
     private void dadoUnUsuarioYContraseñaValidos() {
         Credenciales credenciales = new Credenciales(USUARIO_VALIDO, CONTRASEÑA_VALIDA);
         this.credenciales = credenciales;
     }
 
-    private void dadoUnUsuarioYContraseñaInvalidos () throws CredencialesInvalidasExcepcion{
+    private void dadoUnUsuarioYContraseñaInvalidos() throws CredencialesInvalidasExcepcion {
         Credenciales credenciales = new Credenciales(USUARIO_INVALIDO, CONTRASEÑA_INVALIDA);
         this.credenciales = credenciales;
         when(servicioLogin.loguear(this.credenciales)).thenThrow(CredencialesInvalidasExcepcion.class);
+    }
+
+    private void cuandoElUsuarioSeLoguea() throws CredencialesInvalidasExcepcion {
+        respuesta = controladorLogin.login(this.credenciales);
+        System.out.println(respuesta);
+    }
+
+    private void seVerificaQueSeDevuelveEstado200() {
+        assertEquals(HttpStatus.OK, this.respuesta.getStatusCode());
     }
 
 }

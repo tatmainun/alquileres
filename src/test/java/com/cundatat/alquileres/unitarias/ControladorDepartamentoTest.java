@@ -1,4 +1,5 @@
 package com.cundatat.alquileres.unitarias;
+
 import com.cundatat.alquileres.Servicios.ServicioDepartamento;
 import com.cundatat.alquileres.controladores.ControladorDepartamento;
 import com.cundatat.alquileres.excepciones.DepartamentoInexistente;
@@ -21,7 +22,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class ControladorDepartamentoTest {
 
-    private ArrayList<Departamento> departamentos = new ArrayList<Departamento>();
+    private ArrayList<Departamento> departamentos = new ArrayList<>();
     private ResponseEntity<ArrayList<Departamento>> resultados;
     private ResponseEntity<Departamento> resultado;
     private Departamento departamento;
@@ -39,36 +40,22 @@ public class ControladorDepartamentoTest {
         entoncesObtengoDosDepartamentos();
     }
 
-    @Test 
-    void obtengoeLDepartamento2() throws DepartamentoInexistente {
+    @Test
+    void obtengoElDepartamento2() throws DepartamentoInexistente {
         dadoQueExisteElDepartamento2();
-        cuandoSolicitoSolicitoElDepartamentoDos();
-        entoncesObtengoLosDatosDelDepartamentoDos();
+        cuandoSolicitoElDepartamento2();
+        entoncesObtengoLosDatosDelDepartamento2();
     }
 
     @Test
-    void seRetornaUnMensajeDeErrorCuandoElDepartamentoCuatroNoExiste() throws DepartamentoInexistente{
+    void seRetornaUnMensajeDeErrorCuandoElDepartamentoCuatroNoExiste() throws DepartamentoInexistente {
         dadoQueSeConsultaPorElDepartamentoCuatroYNoExiste();
         assertThrows(DepartamentoInexistente.class, this::cuandoSeSolicitaElDepartamento4);
     }
 
-    private void dadoQueSeConsultaPorElDepartamentoCuatroYNoExiste() throws DepartamentoInexistente{
+    //region dados
+    private void dadoQueSeConsultaPorElDepartamentoCuatroYNoExiste() throws DepartamentoInexistente {
         when(servicioDepartamento.obtenerDepartamento(4L)).thenThrow(DepartamentoInexistente.class);
-    }
-
-    private void cuandoSeSolicitaElDepartamento4() throws DepartamentoInexistente {
-        this.resultado = controladorDepartamento.obtenerDepto(4L);
-    }
-
-    private void entoncesObtengoLosDatosDelDepartamentoDos() {
-        assertEquals(HttpStatus.OK, this.resultado.getStatusCode());
-        assertEquals(2L, this.resultado.getBody().getId());
-        assertEquals(2, this.resultado.getBody().getAmbientes());
-        assertEquals(4, this.resultado.getBody().getCantidadDePersonas());
-    }
-
-    private void cuandoSolicitoSolicitoElDepartamentoDos() throws DepartamentoInexistente {
-        this.resultado = controladorDepartamento.obtenerDepto(2L);
     }
 
     private void dadoQueExisteElDepartamento2() throws DepartamentoInexistente {
@@ -79,15 +66,6 @@ public class ControladorDepartamentoTest {
         this.departamento.setCantidadDePersonas(4);
 
         when(servicioDepartamento.obtenerDepartamento(2L)).thenReturn(this.departamento);
-    }
-
-    private void entoncesObtengoDosDepartamentos() {
-        assertEquals(2, this.resultados.getBody().size());
-        assertEquals(HttpStatus.OK, this.resultados.getStatusCode());
-    }
-
-    private void cuandoSolicitdoLaListaDeTodosLosDepartamentos() {
-        this.resultados = controladorDepartamento.obtenerTodos();
     }
 
     private void dadoQueExistenDosDepartamentos() {
@@ -104,4 +82,34 @@ public class ControladorDepartamentoTest {
 
         when(servicioDepartamento.obtenerDepartamentos()).thenReturn(departamentos);
     }
+    //endregion
+
+    //region cuandos
+    private void cuandoSeSolicitaElDepartamento4() throws DepartamentoInexistente {
+        this.resultado = controladorDepartamento.obtenerDepto(4L);
+    }
+
+    private void cuandoSolicitoElDepartamento2() throws DepartamentoInexistente {
+        this.resultado = controladorDepartamento.obtenerDepto(2L);
+    }
+
+    private void cuandoSolicitdoLaListaDeTodosLosDepartamentos() {
+        this.resultados = controladorDepartamento.obtenerTodos();
+    }
+    //endregion
+
+    //region entonces
+    private void entoncesObtengoLosDatosDelDepartamento2() {
+        assertEquals(HttpStatus.OK, this.resultado.getStatusCode());
+        assertEquals(2L, this.resultado.getBody().getId());
+        assertEquals(2, this.resultado.getBody().getAmbientes());
+        assertEquals(4, this.resultado.getBody().getCantidadDePersonas());
+    }
+
+    private void entoncesObtengoDosDepartamentos() {
+        assertEquals(2, this.resultados.getBody().size());
+        assertEquals(HttpStatus.OK, this.resultados.getStatusCode());
+    }
+    //endregion
+
 }

@@ -15,7 +15,6 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Transactional
@@ -56,42 +55,17 @@ public class ServicioDepartamentoTest {
     @Test
     void seVerificaQueSePuedeObtenerUnSoloDepartamento() throws DepartamentoInexistente {
         dadoQueExistenDosDepartamentos();
-        cuandoSeObtieneElDepartamentoDos();
-        entoncesVerificoQueObtuveElDepartamentoDosConSusDatosCorrectos();
+        cuandoSeObtieneElDepartamento2();
+        entoncesVerificoQueObtuveElDepartamento2ConSusDatosCorrectos();
     }
 
     @Test
     void seVerificaQueSeArrojeUnaExcepcionAlSolicitarUnDepartamentoQueNoExiste() {
         dadoQueExistenDosDepartamentos();
-        assertThrows(DepartamentoInexistente.class, this::cuandoSeObtieneElDepartamentoCuatroSeArrojaUnaExcepcion);
+        assertThrows(DepartamentoInexistente.class, this::cuandoSeObtieneElDepartamento4SeArrojaUnaExcepcion);
     }
 
-    private void entoncesVerificoQueObtuveElDepartamentoDosConSusDatosCorrectos() {
-        assertEquals(2L, this.departamento.getId());
-        assertEquals(3, this.departamento.getAmbientes());
-        assertEquals(6, this.departamento.getCantidadDePersonas());
-    }
-
-    private void cuandoSeObtieneElDepartamentoDos() throws DepartamentoInexistente {
-        this.departamento = servicioDepartamento.obtenerDepartamento(2L);
-    }
-
-    private void entoncesVerificoQueElDepartamento2Exista() {
-        assertEquals(2, this.resultado.get(1).getId());
-    }
-
-    private void entoncesVerificoLaCantidadDeDepartamentosSeaDos() {
-        assertEquals(2, this.resultado.size());
-    }
-
-    private void cuandoSeObtienenTodosLosDepartamentos() {
-        this.resultado = servicioDepartamento.obtenerDepartamentos();
-    }
-
-    private void cuandoSeObtieneElDepartamentoCuatroSeArrojaUnaExcepcion() throws DepartamentoInexistente {
-        this.departamento = servicioDepartamento.obtenerDepartamento(4L);
-    }
-
+    //region dados
     private void dadoQueExistenDosDepartamentos() {
         Departamento departamento1 = new Departamento();
         Departamento departamento2 = new Departamento();
@@ -105,4 +79,37 @@ public class ServicioDepartamentoTest {
         repositorioDepartamento.save(departamento2);
 
     }
+    //endregion
+
+    //region cuandos
+    private void cuandoSeObtieneElDepartamento2() throws DepartamentoInexistente {
+        this.departamento = servicioDepartamento.obtenerDepartamento(2L);
+    }
+
+    private void cuandoSeObtienenTodosLosDepartamentos() {
+        this.resultado = servicioDepartamento.obtenerDepartamentos();
+    }
+
+    private void cuandoSeObtieneElDepartamento4SeArrojaUnaExcepcion() throws DepartamentoInexistente {
+        this.departamento = servicioDepartamento.obtenerDepartamento(4L);
+    }
+    //endregion
+
+    //region entonces
+    private void entoncesVerificoQueObtuveElDepartamento2ConSusDatosCorrectos() {
+        assertEquals(2L, this.departamento.getId());
+        assertEquals(3, this.departamento.getAmbientes());
+        assertEquals(6, this.departamento.getCantidadDePersonas());
+    }
+
+    private void entoncesVerificoQueElDepartamento2Exista() {
+        assertEquals(2, this.resultado.get(1).getId());
+    }
+
+    private void entoncesVerificoLaCantidadDeDepartamentosSeaDos() {
+        assertEquals(2, this.resultado.size());
+    }
+
+    //endregion
+
 }

@@ -48,14 +48,18 @@ public class ServicioLoginTest {
         cuandoSeRealizaElLoginConCredencialesInvalidasSeLanzaLaExcepcion();
     }
 
+    private void dadoQueExisteElUsuarioPepeConContrasñea123456789() {
+        Usuario nuevoUsuario = new Usuario();
+        nuevoUsuario.setUsuario(USUARIO_PEPE);
+        nuevoUsuario.setContraseña(CONTRASEÑA_USUARIO_PEPE);
+
+        repositorioUsuario.save(nuevoUsuario);
+    }
+
     private void cuandoSeRealizaElLoginConCredencialesInvalidasSeLanzaLaExcepcion() {
         Credenciales credenciales = new Credenciales(USUARIO_INVALIDO, CONTRASEÑA_INVALIDA);
 
         assertThrows(CredencialesInvalidasExcepcion.class, () -> servicioLogin.loguear(credenciales));
-    }
-
-    private void seVerificaQueElUsuarioSePudoLoguear() {
-        assertTrue(this.resultado);
     }
 
     private void cuandoSeRealizaElLoginConCredencialesValidas() throws CredencialesInvalidasExcepcion {
@@ -64,12 +68,8 @@ public class ServicioLoginTest {
         this.resultado = servicioLogin.loguear(credenciales);
     }
 
-    private void dadoQueExisteElUsuarioPepeConContrasñea123456789() {
-        Usuario nuevoUsuario = new Usuario();
-        nuevoUsuario.setUsuario(USUARIO_PEPE);
-        nuevoUsuario.setContraseña(CONTRASEÑA_USUARIO_PEPE);
-
-        repositorioUsuario.save(nuevoUsuario);
+    private void seVerificaQueElUsuarioSePudoLoguear() {
+        assertTrue(this.resultado);
     }
 
 }

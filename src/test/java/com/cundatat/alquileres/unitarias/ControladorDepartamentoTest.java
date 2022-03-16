@@ -46,6 +46,20 @@ public class ControladorDepartamentoTest {
         entoncesObtengoLosDatosDelDepartamentoDos();
     }
 
+    @Test
+    void seRetornaUnMensajeDeErrorCuandoElDepartamentoCuatroNoExiste() throws DepartamentoInexistente{
+        dadoQueSeConsultaPorElDepartamentoCuatroYNoExiste();
+        assertThrows(DepartamentoInexistente.class, this::cuandoSeSolicitaElDepartamento4);
+    }
+
+    private void dadoQueSeConsultaPorElDepartamentoCuatroYNoExiste() throws DepartamentoInexistente{
+        when(servicioDepartamento.obtenerDepartamento(4L)).thenThrow(DepartamentoInexistente.class);
+    }
+
+    private void cuandoSeSolicitaElDepartamento4() throws DepartamentoInexistente {
+        this.resultado = controladorDepartamento.obtenerDepto(4L);
+    }
+
     private void entoncesObtengoLosDatosDelDepartamentoDos() {
         assertEquals(HttpStatus.OK, this.resultado.getStatusCode());
         assertEquals(2L, this.resultado.getBody().getId());

@@ -1,6 +1,7 @@
 package com.cundatat.alquileres.controladores;
 
 import com.cundatat.alquileres.Servicios.ServicioDepartamento;
+import com.cundatat.alquileres.excepciones.DepartamentoInexistente;
 import com.cundatat.alquileres.modelos.Departamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class ControladorDepartamento {
     }
 
     @GetMapping("/departamento/{id}")
-    public ResponseEntity<Departamento> obtenerDepto(long departamentoId) {
+    public ResponseEntity<Departamento> obtenerDepto(long departamentoId) throws DepartamentoInexistente {
         Departamento departamento = servicioDepartamento.obtenerDepartamento(departamentoId);
 
         return ResponseEntity.ok(departamento);

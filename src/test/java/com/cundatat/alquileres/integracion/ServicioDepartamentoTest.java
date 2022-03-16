@@ -1,6 +1,7 @@
 package com.cundatat.alquileres.integracion;
 
 import com.cundatat.alquileres.Servicios.ServicioDepartamento;
+import com.cundatat.alquileres.excepciones.DepartamentoInexistente;
 import com.cundatat.alquileres.modelos.Departamento;
 import com.cundatat.alquileres.repositorios.RepositorioDepartamento;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,7 @@ public class ServicioDepartamentoTest {
     private RepositorioDepartamento repositorioDepartamento;
 
     private ArrayList<Departamento> resultado;
+    private Departamento departamento;
 
     @BeforeEach
     void inicializacion() {
@@ -51,6 +53,29 @@ public class ServicioDepartamentoTest {
         entoncesVerificoQueElDepartamento2Exista();
     }
 
+    @Test
+    void seVerificaQueSePuedeObtenerUnSoloDepartamento() throws DepartamentoInexistente {
+        dadoQueExistenDosDepartamentos();
+        cuandoSeObtieneElDepartamentoDos();
+        entoncesVerificoQueObtuveElDepartamentoDosConSusDatosCorrectos();
+    }
+
+    @Test
+    void seVerificaQueSeArrojeUnaExcepcionAlSolicitarUnDepartamentoQueNoExiste() {
+        dadoQueExistenDosDepartamentos();
+        assertThrows(DepartamentoInexistente.class, this::cuandoSeObtieneElDepartamentoCuatroSeArrojaUnaExcepcion);
+    }
+
+    private void entoncesVerificoQueObtuveElDepartamentoDosConSusDatosCorrectos() {
+        assertEquals(2L, this.departamento.getId());
+        assertEquals(3, this.departamento.getAmbientes());
+        assertEquals(6, this.departamento.getCantidadDePersonas());
+    }
+
+    private void cuandoSeObtieneElDepartamentoDos() throws DepartamentoInexistente {
+        this.departamento = servicioDepartamento.obtenerDepartamento(2L);
+    }
+
     private void entoncesVerificoQueElDepartamento2Exista() {
         assertEquals(2, this.resultado.get(1).getId());
     }
@@ -61,6 +86,10 @@ public class ServicioDepartamentoTest {
 
     private void cuandoSeObtienenTodosLosDepartamentos() {
         this.resultado = servicioDepartamento.obtenerDepartamentos();
+    }
+
+    private void cuandoSeObtieneElDepartamentoCuatroSeArrojaUnaExcepcion() throws DepartamentoInexistente {
+        this.departamento = servicioDepartamento.obtenerDepartamento(4L);
     }
 
     private void dadoQueExistenDosDepartamentos() {

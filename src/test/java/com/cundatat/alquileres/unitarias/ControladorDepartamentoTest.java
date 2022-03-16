@@ -1,6 +1,7 @@
 package com.cundatat.alquileres.unitarias;
 import com.cundatat.alquileres.Servicios.ServicioDepartamento;
 import com.cundatat.alquileres.controladores.ControladorDepartamento;
+import com.cundatat.alquileres.excepciones.DepartamentoInexistente;
 import com.cundatat.alquileres.modelos.Departamento;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,7 +40,7 @@ public class ControladorDepartamentoTest {
     }
 
     @Test 
-    void obtengoeLDepartamento2() {
+    void obtengoeLDepartamento2() throws DepartamentoInexistente {
         dadoQueExisteElDepartamento2();
         cuandoSolicitoSolicitoElDepartamentoDos();
         entoncesObtengoLosDatosDelDepartamentoDos();
@@ -52,11 +53,11 @@ public class ControladorDepartamentoTest {
         assertEquals(4, this.resultado.getBody().getCantidadDePersonas());
     }
 
-    private void cuandoSolicitoSolicitoElDepartamentoDos() {
+    private void cuandoSolicitoSolicitoElDepartamentoDos() throws DepartamentoInexistente {
         this.resultado = controladorDepartamento.obtenerDepto(2L);
     }
 
-    private void dadoQueExisteElDepartamento2() {
+    private void dadoQueExisteElDepartamento2() throws DepartamentoInexistente {
         this.departamento = new Departamento();
 
         this.departamento.setId(2L);

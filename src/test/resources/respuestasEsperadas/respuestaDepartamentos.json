@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "ambientes": 1,
+    "cantidadDePersonas": 2
+  },
+  {
+    "id": 2,
+    "ambientes": 2,
+    "cantidadDePersonas": 4
+  }
+]

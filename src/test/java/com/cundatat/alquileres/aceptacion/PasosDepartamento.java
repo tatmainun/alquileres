@@ -6,6 +6,7 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import net.javacrumbs.jsonunit.core.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -13,15 +14,18 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.Filter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static net.javacrumbs.jsonunit.spring.JsonUnitResultMatchers.json;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class PasosDepartamento extends PasosBase {
 
+    public static final String RUTA_RESPUESTA_DEPARTAMENTOS_JSON = "src/test/resources/respuestasEsperadas/respuestaDepartamentos.json";
     public MockMvc mockMvc;
     private ResultActions resultado;
 
@@ -67,9 +71,19 @@ public class PasosDepartamento extends PasosBase {
 
     @Then("^Obtenemos todos los departamentos$")
     public void obtenemosTodosLosDepartamentos() throws Exception {
+
+        String respuestaEsperada = obtenerStringDesdeArchivo(RUTA_RESPUESTA_DEPARTAMENTOS_JSON);
+
+        System.out.println(respuestaEsperada);
+
         resultado.andExpect(status().is(200))
-                .andExpect((result) -> {
-                    assertEquals("", result.getResponse().getContentAsString());
-                });
+                .andExpect(json()
+                        .when(Option.IGNORING_ARRAY_ORDER)
+                        .isEqualTo(respuestaEsperada)
+                );
+    }
+
+    private static String obtenerStringDesdeArchivo(String ruta) throws Exception {
+        return new String(Files.readAllBytes(Paths.get(ruta)));
     }
 }
